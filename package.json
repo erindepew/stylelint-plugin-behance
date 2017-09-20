@@ -1,0 +1,18 @@
+{
+  "name": "@behance/stylelint-plugin-behance",
+  "version": "1.0.0",
+  "description": "custom stylelint rules",
+  "main": "index.js",
+  "author": "Erin Depew",
+  "license": "ISC",
+  "scripts": {
+    "lint": "eslint .",
+    "test": "npm run lint && node test"
+  },
+  "devDependencies": {
+    "eslint": "^4.7.1",
+    "eslint-preset-behance": "^8.0.0",
+    "stylelint": "^8.1.1",
+    "stylelint-test-rule-tape": "^0.2.0"
+  }
+}
