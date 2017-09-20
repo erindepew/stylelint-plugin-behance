@@ -7,10 +7,15 @@
   "license": "ISC",
   "scripts": {
     "lint": "eslint .",
-    "test": "npm run lint && node test"
+    "test": "npm run lint && node tests"
   },
+  "files": [
+    "index.js",
+    "rules"
+  ],
   "devDependencies": {
     "eslint": "^4.7.1",
+    "eslint-plugin-behance": "^1.1.0",
     "eslint-preset-behance": "^8.0.0",
     "stylelint": "^8.1.1",
     "stylelint-test-rule-tape": "^0.2.0"

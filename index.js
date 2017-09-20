@@ -1,1 +1,1 @@
-module.exports = [require('./no-mixing')];
+module.exports = [require('./rules/no-mixing')];
