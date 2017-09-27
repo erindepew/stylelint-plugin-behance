@@ -2,9 +2,8 @@ const stylelint = require('stylelint');
 
 const ruleName = 'stylelint-plugin-behance/no-mixing';
 const messages = stylelint.utils.ruleMessages(ruleName, {
-  expected: (file, type) => {
-    const nodeType = type === 'decl' ? 'variables' : 'mixins';
-    return `Expected no mixing of ${nodeType} and rules in ${file}`;
+  expected: (file) => {
+    return `Expected no mixing of variables and rules in ${file}`;
   },
 });
 
@@ -15,7 +14,6 @@ module.exports = stylelint.createPlugin(ruleName, function() {
 
     let hasDeclaration = false;
     let hasRule = false;
-    let lastDeclarationNode = null;
     let lastNode = null;
 
     postcssRoot.walk((node) => {
@@ -25,26 +23,18 @@ module.exports = stylelint.createPlugin(ruleName, function() {
       else {
         lastNode = node;
 
-        if (node.type === 'rule' && !hasRule) {
+        if (node.type === 'rule' && !hasRule && !(node.selector.substring(0, 2) === '&:')) {
           hasRule = true;
         }
-        else if (node.type === 'atrule' && node.name === 'mixin') {
-          lastDeclarationNode = node;
-          if (!hasDeclaration) {
-            hasDeclaration = true;
-          }
-        }
-        else if (node.type === 'decl' && node.prop.substring(0, 1) === '$') {
-          lastDeclarationNode = node;
-          if (!hasDeclaration) {
-            hasDeclaration = true;
-          }
+
+        else if (node.type === 'decl' && node.prop.substring(0, 1) === '$' && !hasDeclaration) {
+          hasDeclaration = true;
         }
       }
     });
     if (hasDeclaration && hasRule) {
       stylelint.utils.report({
-        message: messages.expected(postcssResult.opts.from, lastDeclarationNode.type),
+        message: messages.expected(postcssResult.opts.from),
         ruleName,
         node: lastNode,
         result: postcssResult,
