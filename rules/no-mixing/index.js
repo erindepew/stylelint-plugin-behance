@@ -17,7 +17,7 @@ module.exports = stylelint.createPlugin(ruleName, function() {
     let lastNode = null;
 
     postcssRoot.walk((node) => {
-      if (hasDeclaration && hasRule) {
+      if ((hasDeclaration && hasRule) || node.parent.type === 'atrule') {
         return;
       }
       else {
